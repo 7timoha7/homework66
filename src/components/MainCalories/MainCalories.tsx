@@ -28,10 +28,12 @@ const MainCalories = () => {
   }, 0);
 
   return (
-    <div>
-      <div>
-        <span>Total calories: {totalCalk} calk</span>
-        <Link to={"/form/add"}>Add</Link>
+    <div className="container-fluid border border-dark p-3">
+      <div className="d-flex justify-content-around align-items-center bg-info p-3  bg-success bg-opacity-25">
+        <span>Total calories: <span className="text-danger fs-3">{totalCalk} calk</span></span>
+        <div>
+          <Link className="btn btn-danger" to={"/form/add"}>Add</Link>
+        </div>
       </div>
       <div>
         {foodList.map(item => {

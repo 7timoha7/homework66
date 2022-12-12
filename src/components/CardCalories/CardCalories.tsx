@@ -21,17 +21,21 @@ const CardCalories: React.FC<Props> = ({card}) => {
   }
 
   return (
-    <div>
-      <div>
-        <p>{card.foodTime}</p>
-        <p>{card.food}</p>
+    <div className="border border-dark border-5 rounded-4 mt-2 p-2 bg-success bg-opacity-25">
+      <div className="mb-3">
+        <p className="bg-info d-inline p-lg-2 rounded-bottom">{card.foodTime.toUpperCase()}</p>
+      </div>
+      <div className="mb-3">
+        <span>Type of food: </span>
+        <p className="d-inline bg-warning p-lg-2 rounded-bottom">{card.food}</p>
+      </div>
+      <div className="mb-3">
+        <span>Calories: </span>
+        <p className="d-inline bg-danger p-lg-2 rounded-bottom">{card.calories}</p>
       </div>
       <div>
-        <p>{card.calories}</p>
-      </div>
-      <div>
-        <Link to={"/form/" + card.id}>edit</Link>
-        <button onClick={btnDelete}>delete</button>
+        <Link className="btn btn-outline-info me-2" to={"/form/" + card.id}>edit</Link>
+        <button className="btn btn-outline-danger" onClick={btnDelete}>delete</button>
       </div>
     </div>
   );
