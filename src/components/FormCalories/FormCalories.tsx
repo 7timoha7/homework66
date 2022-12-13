@@ -5,14 +5,17 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Form} from "react-bootstrap";
 import Preloader from "../Preloader/Preloader";
 import BtnPreloader from "../BtnPreloader/BtnPreloader";
+import {AxiosError} from "axios";
+import {format} from 'date-fns'
 
 const FormCalories = () => {
+
   const [foodData, setFoodData] = useState<CaloriesType>({
     food: '',
     calories: '',
     foodTime: '',
+    date: '',
   });
-
   const [loader, setLoader] = useState<boolean>(false);
   const [btnLoader, seBtnLoader] = useState<boolean>(false);
 
@@ -51,8 +54,9 @@ const FormCalories = () => {
       try {
         seBtnLoader(true);
         await axiosApi.put("calories/" + addEdit + ".json", foodData);
-      } catch (e) {
-        console.log('error' + e);
+      } catch (err) {
+        let error = err as AxiosError;
+        console.log('Error: ' + error.message);
       } finally {
         seBtnLoader(false);
       }
@@ -68,6 +72,18 @@ const FormCalories = () => {
     setFoodData(prev => ({...prev, foodTime: e.target.value}));
   }
 
+  const onChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const date = e.target.value.toString();
+    setFoodData(prev => ({...prev, date: date}));
+  }
+
+  useEffect(() => {
+    if (addEdit === 'add') {
+      setFoodData(prev =>
+        ({...prev, date: format(new Date(), 'yyyy-MM-dd')}));
+    }
+  }, [addEdit]);
+
   const addEditName = () => {
     if (addEdit === "add") {
       return <h2>Add</h2>
@@ -78,8 +94,28 @@ const FormCalories = () => {
 
   let content = (
     <Form onSubmit={formSubmit}>
-      <Form.Select className="w-50 mb-2" value={foodData.foodTime} onChange={selectChange} required name="foodTime"
-                   id="foodTime">
+      <div>
+        <div>
+          <label htmlFor="date">Date:</label>
+        </div>
+        <input
+          value={foodData.date}
+          required
+          type="date"
+          onChange={onChangeDate}
+          name="date"
+        />
+      </div>
+      <div>
+        <label htmlFor="foodTime">Time: </label>
+      </div>
+      <Form.Select
+        className="w-50 mb-2"
+        value={foodData.foodTime}
+        onChange={selectChange}
+        required
+        name="foodTime"
+        id="foodTime">
         <option hidden value="">Select?</option>
         <option value="breakfast">Breakfast</option>
         <option value="snack">Snack</option>
@@ -87,14 +123,33 @@ const FormCalories = () => {
         <option value="dinner">Dinner</option>
       </Form.Select>
       <div>
-        <input className="form-control w-50 mb-2" value={foodData.food} onChange={formChange} required type="text"
-               name="food"/>
+        <div>
+          <label htmlFor="food">Food:</label>
+        </div>
+        <input
+          className="form-control w-50 mb-2"
+          value={foodData.food}
+          onChange={formChange}
+          required
+          type="text"
+          name="food"/>
       </div>
       <div>
-        <input className="form-control w-50 mb-2" value={foodData.calories} onChange={formChange} required type="number"
-               name="calories"/>
+        <div>
+          <label htmlFor="calories">Calories:</label>
+        </div>
+        <input
+          className="form-control w-50 mb-2"
+          value={foodData.calories}
+          onChange={formChange}
+          required
+          type="number"
+          name="calories"/>
       </div>
-      <button className="btn btn-outline-warning" disabled={btnLoader}>
+      <button
+        className="btn btn-outline-warning"
+        disabled={btnLoader}
+      >
         {btnLoader && <BtnPreloader/>}
         {btnLoader ? null : 'Submit'}
       </button>
@@ -106,7 +161,12 @@ const FormCalories = () => {
   }
 
   return (
-    <div className="border border-warning container-sm p-3">
+    <div className="
+     border
+     border-warning
+     container-sm
+     p-3 bg-success
+     bg-opacity-25">
       {addEditName()}
       {content}
     </div>

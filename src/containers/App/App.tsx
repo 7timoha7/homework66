@@ -1,8 +1,7 @@
 import React from 'react';
-import './App.css';
-import MainCalories from "./components/MainCalories/MainCalories";
+import MainCalories from "../../components/MainCalories/MainCalories";
 import {Link, Route, Routes} from "react-router-dom";
-import FormCalories from "./components/FormCalories/FormCalories";
+import FormCalories from "../../components/FormCalories/FormCalories";
 import {Navbar} from "react-bootstrap";
 
 function App() {
