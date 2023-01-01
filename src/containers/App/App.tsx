@@ -5,7 +5,6 @@ import FormCalories from "../../components/FormCalories/FormCalories";
 import {Navbar} from "react-bootstrap";
 
 function App() {
-  console.log('123');
   return (
     <div className="container-fluid">
       <Navbar>
